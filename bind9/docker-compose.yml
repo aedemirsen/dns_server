@@ -1,0 +1,25 @@
+version: '3'
+services:
+  local-dns-server:
+    image: ubuntu/bind9
+    container_name: local-dns
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - ./config/local/db.local:/etc/bind/db.local
+      - ./config/local/named.conf.local:/etc/bind/named.conf.local
+      - ./config/local/named.conf.options:/etc/bind/named.conf.options
+    restart: always
+
+  public-dns-server:
+    image: ubuntu/bind9
+    container_name: public-dns
+    ports:
+      - "5353:53/tcp"
+      - "5354:53/udp"
+    volumes:
+      - ./config/public/db.public:/etc/bind/db.public
+      - ./config/public/named.conf.local:/etc/bind/named.conf.local
+      - ./config/public/named.conf.options:/etc/bind/named.conf.options
+    restart: always
